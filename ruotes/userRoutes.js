@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const API = require('../model/api')
-
-const system = require('../backend/mockBBDD')
+const API = require('../model/api');
+const resourceNotFoundErrorModule = require('./error/ResourceNotFoundError');
+const badRequestErrorModule = require('./errors/BadRequestError');
+const relatedResourceNotFoundError = require('./error/RelatedResourceNotFoundError');
+const internalServerErrorModule = require('./error/InternalServerError');
+const system = require('../backend/mockBBDD');
 
 router.get('/suscriptions', (req, res, next) => {
     const valid = req.query !== undefined
@@ -18,17 +21,16 @@ router.get('/suscriptions', (req, res, next) => {
                 res.status(200).json(elems);
             }
             else{
-                res.status(400).json({message: "artist es undefinded2"})
+                next(new relatedResourceNotFoundErrorModule.RelatedResourceNotFoundError())
             }
             
         })
         .catch(err => {
-            console.log(err)
-            res.status(400)
+            next(new relatedResourceNotFoundErrorModule.RelatedResourceNotFoundError())
         })
     }
     else{
-        res.status(400).json({message: 'bad'})
+        next( new badRequestErrorModule.BadRequestError())
     }
 });
 
@@ -48,17 +50,15 @@ router.post('/suscribe', (req, res, next) => {
                     res.status(200).json({message: "ok"});
                 }
                 else{
-                    res.status(400).json({message: "artist es undefinded2"})
+                    next(new relatedResourceNotFoundErrorModule.RelatedResourceNotFoundError())
                 }
-                
             })
             .catch(err => {
-                console.log(err)
-                res.status(400)
+                next(new relatedResourceNotFoundErrorModule.RelatedResourceNotFoundError())
             })
         }
     else{
-        res.status(400).json({message: 'bad'})
+        next(new badRequestErrorModule.BadRequestError())
     }
 });
 
@@ -78,15 +78,15 @@ router.post('/unsuscribe', (req, res, next) => {
                 res.status(200).json(system.getUser(email))
             }
             else{
-                res.status(400).json({message: "artist es undefinded2"})
+                next(new relatedResourceNotFoundErrorModule.RelatedResourceNotFoundError())
             }  
         })
         .catch(err => {
-            res.status(400)
+            next(new relatedResourceNotFoundErrorModule.RelatedResourceNotFoundError())
         })
     }
     else{
-        res.status(400).json({message: 'bad'})
+        next(new badRequestErrorModule.BadRequestError());
     }
 });
 
@@ -106,11 +106,11 @@ router.post('/notify', (req, res, next) => {
             res.status(200).json({message: m})
         })
         .catch(err => {
-            res.status(400)
+            next(new internalServerErrorModule.InternalServerError())
         })
     }
 	else{
-        res.status(400).json({message: "error en el body"})
+        next(new badRequestErrorModule.BadRequestError())
     }
 });
 
@@ -128,16 +128,15 @@ router.delete('/suscriptions', (req, res, next) => {
                 res.status(200).json()                
             }
             else{
-                res.status(400).json({message: "artist es undefinded2"})
+                next(new relatedResourceNotFoundErrorModule.RelatedResourceNotFoundError())
             }
         })
         .catch(err => {
-            console.log(err)
-            res.status(400)
+            next(new relatedResourceNotFoundErrorModule.RelatedResourceNotFoundError())
         })
     }
     else{
-        res.status(400).json({message: 'bad'})
+        next(new badRequestErrorModule.BadRequestError())
     }
 });
 

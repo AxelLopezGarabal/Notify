@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const API = require('../model/api');
-const resourceNotFoundErrorModule = require('./error/ResourceNotFoundError');
-const badRequestErrorModule = require('./errors/BadRequestError');
-const relatedResourceNotFoundError = require('./error/RelatedResourceNotFoundError');
+const badRequestErrorModule = require('./error/BadRequestError');
+const relatedResourceNotFoundErrorModule = require('./error/RelatedResourceNotFoundError');
 const internalServerErrorModule = require('./error/InternalServerError');
 const system = require('../backend/mockBBDD');
 

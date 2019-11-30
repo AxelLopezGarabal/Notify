@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
+const errorHandler = require('./errorHandler')
 const userRoutes = require('./ruotes/userRoutes')
 
 app

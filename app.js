@@ -12,6 +12,8 @@ app
 
     .use('/api', userRoutes)
 
+	.use(errorHandler)
+
     .use((req, res, next) => {
 		const error = new Error('Not found')
 		error.status = 404

@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const server = 'http://localhost:5000/api'
+const server = 'http://172.20.0.21:5000/api'
 
 const API ={
     get: path => axios.get(`${server}${path}`).then(response => response),
